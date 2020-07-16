@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 public interface IBlogService {
     Page<Blog> findAll(Pageable pageable);
 
+    Iterable<Blog> findAllBlog();
+
     void save(Blog blog);
 
     Blog findById(Long id);
