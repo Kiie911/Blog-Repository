@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Title</title>
+</head>
+<body>
+
+<div sec:authorize="isAnonymous()">
+    <a href="/login">Login</a><br>
+</div>
+
+<div sec:authorize="isAuthenticated()">
+    <div sec:authorize="hasRole('USER')">
+        <a th:href="@{/blogs}">Blog List</a>
+    </div>
+    <div sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/create-blog}">Create blog</a>
+    </div>
+    <a th:href="@{/logout}">Logout</a>
+</div>
+
+</body>
+</html>

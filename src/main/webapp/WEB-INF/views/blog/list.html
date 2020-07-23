@@ -3,15 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <title>Blogs</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!--    <script type="text/javascript">-->
+<!--        function searchBlogByName() {-->
+<!--            // lấy dữ liệu-->
+<!--            let name_bloger = $('#name_bloger').val();-->
+<!--            let blogList = {-->
+<!--                name: name_bloger-->
+<!--            };-->
+<!--        //    Gọi ajax-->
+<!--            $.ajax({-->
+<!--                headers: {-->
+<!--                    'Accept': 'application/json',-->
+<!--                    'Content-Type': 'application/json'-->
+<!--                },-->
+<!--                type: "GET",-->
+<!--                data: JSON.stringify(blogList),-->
+<!--                url:"/blogss",-->
+<!--                success: successHandler-->
+<!--            });-->
+<!--            //chặn sự kiện mặc định của thẻ-->
+<!--            event.preventDefault();-->
+<!--        }-->
+
+<!--        function successHandler() {-->
+<!--            $.ajax({-->
+<!--                type: "GET",-->
+<!--                url: "/blogss",-->
+<!--                success: function (data) {-->
+
+<!--                    let content = `    <tr>\n` +-->
+<!--                        `        <td>Name</td>\n` +-->
+<!--                        `        <td>Category</td>\n` +-->
+<!--                        `        <td>Edit</td>\n` +-->
+<!--                        `        <td>Delete</td>\n` +-->
+<!--                        `    </tr>`;-->
+
+<!--                    for (let i = 0; i <data.length; i++) {-->
+<!--                        content += getClass(data[i]);-->
+<!--                    }-->
+<!--                    document.getElementById('blogList').innerHTML = content;-->
+<!--                }-->
+<!--            })-->
+<!--        }-->
+
+<!--        function getClass(blogg) {-->
+<!--            return `<tr><td >${blogg.name}</td>`+-->
+<!--                    `<td >${blogg.category}</td>` +-->
+<!--                `<td><a class="editClass" href="${blogg.id}">Delete</a></td>`+-->
+<!--                `<td><a class="deleteClass" href="${blogg.id}">Delete</a></td></tr>`;-->
+<!--        }-->
+
+<!--    </script>-->
 </head>
 <body>
 <h1>Blogs</h1>
 <a href="/create-blog">Create new blog</a><br>
 <a href="/create-category">Create new category</a>
-<form>
+<form id="name_bloger">
     Search by name:
     <input name="s" type="text"/>
-    <input type="submit" value="Search"/>
+    <input type="submit" value="Search" onclick="searchBlogByName()"/>
 </form>
 <br/>
 <ul th:each="category: ${categories}">
@@ -19,7 +71,7 @@
 </ul>
 
 
-<table border="1">
+<table id="blogList" border="1">
     <tr>
         <th>Name</th>
         <th>Category</th>
@@ -32,15 +84,15 @@
             <td><a th:text="${blog.name}" th:href="@{/detail/__${blog.id}__}"></a></td>
             <td th:text="${blog.category.name}"></td>
 <!--            <td th:text="${#strings.substring(blog.detail, 0, 30)}"></td>-->
-            <td><a th:href="@{/edit-blog/__${blog.id}__}">Edit</a></td>
-            <td><a th:href="@{/delete-blog/__${blog.id}__}">Delete</a></td>
+            <td class="editClass"><a th:href="@{/edit-blog/__${blog.id}__}">Edit</a></td>
+            <td class="deleteClass"><a th:href="@{/delete-blog/__${blog.id}__}">Delete</a></td>
         </tr>
     </th:block>
-    <div>
-        <a th:href="@{'/blogs'(page=${blogList.number - 1})}" th:if="${blogList.hasPrevious()}">Previous</a>
-        <span th:text="${blogList.number+1}"></span>/<span th:text="${blogList.totalPages}"></span>
-        <a th:href="@{'blogs'(page=${blogList.number + 1})}" th:if="${blogList.hasNext()}">Next</a>
-    </div>
+<!--    <div>-->
+<!--        <a th:href="@{'/blogs'(s=${s}, page=${blogList.number - 1})}" th:if="${blogList.hasPrevious()}">Previous</a>-->
+<!--        <span th:text="${blogList.number+1}"></span>/<span th:text="${blogList.totalPages}"></span>-->
+<!--        <a th:href="@{'/blogs'(s=${s},page=${blogList.number + 1})}" th:if="${blogList.hasNext()}">Next</a>-->
+<!--    </div>-->
 </table>
 </body>
 </html>

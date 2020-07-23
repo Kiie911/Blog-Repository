@@ -42,7 +42,13 @@ public class BlogService implements IBlogService {
     }
 
     @Override
+    public Iterable<Blog> findAllByName(String name) {
+        return blogRepository.findAllByName(name);
+    }
+
+    @Override
     public Page<Blog> findAllByNameContaining(String name, Pageable pageable) {
         return blogRepository.findAllByNameContaining(name, pageable);
     }
+
 }

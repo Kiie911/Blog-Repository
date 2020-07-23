@@ -12,4 +12,6 @@ public interface IBlogRepository extends PagingAndSortingRepository<Blog, Long> 
 
     Page<Blog> findAllByNameContaining(String name, Pageable pageable);
 
+    Iterable<Blog> findAllByName(String name);
+
 }

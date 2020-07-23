@@ -7,12 +7,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import service.blog.IBlogService;
 import service.category.ICategoryService;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -28,19 +33,31 @@ public class BlogController {
         return categoryService.findAll();
     }
 
-    @GetMapping("/blogs")
-    public ModelAndView listBlogs(@RequestParam("s") Optional<String> s, @PageableDefault(size = 10, direction = Sort.Direction.DESC, sort = "id") Pageable pageable) {
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
 
-        Page<Blog> blogs;
-        if (s.isPresent()) {
-            blogs = blogService.findAllByNameContaining(s.get(), pageable);
-        } else {
-            blogs = blogService.findAll(pageable);
-        }
+    @GetMapping("/blogs")
+//    public ModelAndView listBlogs(@RequestParam("s") Optional<String> s, @PageableDefault(size = 2, direction = Sort.Direction.DESC, sort = "id") Pageable pageable) {
+    public ModelAndView listBlogs(@RequestParam("s") Optional<String> s) {
         ModelAndView modelAndView = new ModelAndView("blog/list");
+        Iterable<Blog> blogs;
+        if (s.isPresent()) {
+//            blogs = blogService.findAllByNameContaining(s.get());
+            blogs = blogService.findAllByName(s.get());
+            modelAndView.addObject("s",s.get());
+        } else {
+            blogs = blogService.findAllBlog();
+        }
         modelAndView.addObject("blogList", blogs);
         return modelAndView;
     }
+
+//    @GetMapping("/blogss")
+//    public ResponseEntity<Iterable<Blog>> search(@ModelAttribute String s){
+//        return new ResponseEntity<Iterable<Blog>>(blogService.findAllByName(s), HttpStatus.OK);
+//    }
 
     @GetMapping("/detail/{id}")
     public ModelAndView showDetail(@PathVariable Long id) {

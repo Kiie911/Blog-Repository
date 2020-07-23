@@ -18,5 +18,9 @@ public interface IBlogService {
 
     Iterable<Blog> findAllByCategory(Category category);
 
+    Iterable<Blog> findAllByName(String name);
+
+
     Page<Blog> findAllByNameContaining(String name, Pageable pageable);
+
 }

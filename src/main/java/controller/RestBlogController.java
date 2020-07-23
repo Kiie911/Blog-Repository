@@ -16,9 +16,6 @@ public class RestBlogController {
     @Autowired
     IBlogService iBlogService;
 
-
-
-
     @GetMapping
     public ResponseEntity<Iterable<Blog>> findAllBlogs(){
         return new ResponseEntity<>(iBlogService.findAllBlog(),HttpStatus.OK);

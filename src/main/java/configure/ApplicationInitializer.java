@@ -8,12 +8,12 @@ import javax.servlet.Filter;
 public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{ApplicationConfig.class};
+        return new Class[]{WebSecurityConfig.class};
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[0];
+        return new Class[]{ApplicationConfig.class};
     }
 
     @Override
@@ -28,4 +28,5 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
         filter.setForceEncoding(true);
         return new Filter[]{filter};
     }
+
 }
